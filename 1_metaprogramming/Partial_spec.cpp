@@ -74,6 +74,8 @@ public:
             delete []vals;
             keys = temp_key;
             vals = temp_val;
+            delete []temp_key;
+            delete []temp_val;
         } else {
             keys[sz] = key;
             vals[sz] = val;
