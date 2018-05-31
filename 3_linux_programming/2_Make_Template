@@ -1,0 +1,21 @@
+# Универсальный make 
+
+# Имя целевой переменной 
+TARGET=calc
+# Компилятор
+CC=gcc
+# Опции компилятора
+CFLAGS=-g -Wall
+# Си файлы
+OBJECTS=main.o reciprocal.o 
+#don’t change this
+all:$(TARGET)
+clean:
+	rm -f *.o $(TARGET) core
+$(TARGET): $(OBJECTS)
+	$(CC) -o $(TARGET) $(CFLAGS) $(OBJECTS)
+# шаблонное правило для зависимостей .o файлов от .c файлов
+.c.o:
+	$(CC) -c $(CFLAGS) $<
+#dependency from h files
+calc.o: mylib.h
