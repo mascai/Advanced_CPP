@@ -38,3 +38,16 @@ alex@alex-pc:~/dev/cpp/2_make$ gcc -o res libtest.a
 alex@alex-pc:~/dev/cpp/2_make$ ls
 libtest.a  main.c  main.o  Makefile  reciprocal.cpp  reciprocal.hpp  reciprocal.o  res
 alex@alex-pc:~/dev/cpp/2_make$ ./res 2
+
+### 3
+Совместно используемые библиотеки (Win - dll === Unix - .so)
+
+- Не являются кодом программы (программа на них ссылается)
+- Не коллекция объектных файлов, а ЕДИНЫЙ файл
+- Как создать:
+	1)Сначала все файл откомпилить с флагом -fPIC
+		gcc -с -fPIC test1.c
+	
+	2)Объединить получившиеся на 1 шаге объктники (-shared - создать .so файл, а не исполняемый)
+		gcc -shared -fPIC -о libtest.so test1.o test2.o
+
