@@ -1,3 +1,5 @@
+### 1
+
 reciprocal: main.o reciprocal.o
 	g++ $(CFLAGS) -o reciprocal main.o reciprocal.o
 
@@ -14,3 +16,25 @@ clean:
 # gcc -c main.c ---> main.o
 # g++ -c reciprocal.cpp ---> reciprocal.o
 #g++ -o res_name main.o reciprocal.o 
+
+
+### 2
+Архив (или статическая библиотека) — это коллекция объектных файлов, хранящаяся в виде
+одного файла (он является примерным эквивалентом LIB-файла в Windows). Когда архив
+поступает на вход компоновщика, тот ищет в нем нужные объектные файлы, извлекает их и
+подключает к программе так, как если бы они были указаны непосредственно.
+
+Архив создается посредством команды ar. Архивные файлы традиционно имеют расширение
+.a, а не .o, которое закреплено за отдельными объектными файлами. Вот как объединить
+файлы test1.o и test2.o в единый архив libtest.a:
+
+Флаги cr сообщают команде ar о необходимости создать архив.
+
+main.c  main.o  Makefile  reciprocal.cpp  reciprocal.hpp  reciprocal.o
+alex@alex-pc:~/dev/cpp/2_make$ ar cr libtest.a reciprocal.o main.o 
+alex@alex-pc:~/dev/cpp/2_make$ ls
+libtest.a  main.c  main.o  Makefile  reciprocal.cpp  reciprocal.hpp  reciprocal.o
+alex@alex-pc:~/dev/cpp/2_make$ gcc -o res libtest.a 
+alex@alex-pc:~/dev/cpp/2_make$ ls
+libtest.a  main.c  main.o  Makefile  reciprocal.cpp  reciprocal.hpp  reciprocal.o  res
+alex@alex-pc:~/dev/cpp/2_make$ ./res 2
