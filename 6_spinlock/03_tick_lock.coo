@@ -1,0 +1,47 @@
+
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <atomic>
+
+
+class TicketLock {
+public:
+    void lock() {
+        size_t my_ticket = next_free_ticket_.fetch_add(1);
+        while (my_ticket != owner_ticket_.load()) {
+            // retry
+        }
+    }
+
+    void unlock() {
+        ++owner_ticket_;
+    }
+private:
+    std::atomic<size_t> next_free_ticket_ = 0;
+    std::atomic<size_t> owner_ticket_ = 0;
+};
+
+TicketLock m;
+int i = 0;
+
+void locked_increment() {
+    m.lock();
+    std::cout << "Print value " << i << "\n";
+    i++;
+    m.unlock();
+}
+
+
+int main() {
+
+    std::thread thread1(locked_increment);
+    std::thread thread2(locked_increment);
+    std::thread thread3(locked_increment);
+
+    thread1.join();
+    thread2.join();
+    thread3.join();
+
+    return 0;
+}
